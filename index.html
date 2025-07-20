@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PORIGAMA</title>
+  <style>
+    :root {
+      --container-width: 960px;
+      --section-padding: 80px;
+      --section-padding-mobile: 48px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #ffffff;
+      color: #1a1a1a;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      background: #ffffff;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #e6e6e6;
+      z-index: 1000;
+    }
+    nav ul {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    nav a {
+      text-decoration: none;
+      color: #000000;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a.active {
+      color: #000000;
+    }
+    nav a:hover {
+      background: linear-gradient(to right, #2c98f0, #00b8d9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      padding: var(--section-padding) 2rem;
+      background: #ffffff;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    h1 {
+      font-size: 5rem;
+      background: linear-gradient(to right, #2c98f0, #00b8d9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+      
+    }
+
+    
+
+    .tagline {
+      font-size: 1.5rem;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #333;
+      width: 42ch;
+      animation: typing 4s steps(42, end) forwards, blink 0.7s step-end infinite;
+      margin-bottom: 2rem;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    .robot {
+      width: 120px;
+      height: auto;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .robot-eye {
+      animation: blinkEye 4s infinite;
+      transform-origin: center;
+    }
+
+    @keyframes blinkEye {
+      0%, 90%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.1); }
+    }
+
+    section {
+      max-width: var(--container-width);
+      width: 100%;
+      margin: 0 auto;
+      padding: var(--section-padding) 2rem;
+      box-sizing: border-box;
+      border-bottom: 2px solid #e6e6e6;
+      background: transparent;
+    }
+
+    section p {
+      margin-bottom: 0.75rem;
+    }
+
+    
+      padding: var(--section-padding) 2rem;
+      max-width: var(--container-width);
+      margin: 0 auto;
+      border-bottom: 2px solid #e6e6e6;
+      background: transparent;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #000000;
+    }
+
+    h2::before {
+      content: "# ";
+      color: #000000;
+    }
+
+    .contact p {
+      margin-bottom: 0.5rem;
+    }
+
+    a {
+      color: #2c98f0;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #777;
+      background: #ffffff;
+      border-top: 1px solid #ddd;
+    }
+
+    @media (max-width: 600px) {
+      .robot {
+        width: 80vw;
+        max-width: 120px;
+        height: auto;
+      }
+      .tagline {
+        font-size: 1rem;
+        width: 100%;
+        max-width: 100%;
+        white-space: normal;
+        overflow: visible;
+        border-right: none;
+        animation: none;
+      }
+      h1 {
+        font-size: 3rem;
+      }
+      .tagline {
+        font-size: 1.1rem;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      section, header {
+        padding: var(--section-padding-mobile) 1rem;
+      }
+    }
+  
+
+
+  100% { transform: translateY(100%); }
+}
+
+
+
+
+    
+      50% { r: 9; opacity: 0.4; }
+    }
+
+    
+
+    
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+.lamp {
+      animation: pulseLamp 1.5s infinite;
+    }
+
+    @keyframes pulseLamp {
+      0%, 100% { fill: #ffaa00; r: 10.4; opacity: 1; }
+      50% { fill: #ffcc33; r: 11.5; opacity: 0.6; }
+    }
+      50% { fill: #ffcc33; r: 9; opacity: 0.6; }
+    }
+
+.contact-layout {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-info {
+      flex: 1 1 300px;
+    }
+
+    .contact-message {
+      flex: 1 1 300px;
+      font-style: italic;
+      color: #2c98f0;
+      font-size: 1rem;
+      max-width: 400px;
+    }
+
+.contact-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.contact-info {
+  flex: 1 1 300px;
+}
+
+.contact-message {
+  flex: 1 1 300px;
+  font-style: italic;
+  color: #2c98f0;
+  font-size: 1rem;
+  max-width: 400px;
+}
+
+@media (max-width: 600px) {
+  .contact-layout {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+section:last-of-type {
+  border-bottom: none;
+}
+
+footer {
+  margin-top: 2rem;
+}
+
+</style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="#top">HOME</a></li>
+      <li><a href="#about">ABOUT US</a></li>
+      <li><a href="#contact">CONTACT</a></li>
+    </ul>
+  </nav>
+
+  <header id="top">
+    <h1>PORIGAMA</h1>
+    <p class="tagline">World-class expertise to power your mobile game business.</p>
+
+    <!-- SVG ROBOT CHARACTER WITH MOVING EYES -->
+    <svg class="robot" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="40" width="60" height="60" rx="10" ry="10" fill="#4f4f4f" />
+      <circle id="eye-left" cx="35" cy="60" r="5" fill="#ffffff" />
+      <circle id="eye-right" cx="65" cy="60" r="5" fill="#ffffff" />
+      <rect x="45" y="75" width="10" height="10" fill="#ffffff" rx="2" />
+      <line x1="30" y1="30" x2="30" y2="40" stroke="#999999" stroke-width="4" />
+      <line x1="70" y1="30" x2="70" y2="40" stroke="#999999" stroke-width="4" />
+      <circle class="lamp" cx="50" cy="20" r="10.4" fill="#ffaa00" stroke="#ffffff" stroke-width="2" />
+    </svg>
+  </header>
+
+  <section id="about">
+    <h2>ABOUT US</h2>
+    <p></p>
+    <p>PORIGAMA is a UK-based company specializing in consulting and software development for the mobile gaming industry.</p>
+    <p>Led by professionals with years in mobile gaming, PORIGAMA stands out thanks to its deep domain knowledge and proven track record of delivering successful products on both iOS and Android platforms.</p>
+    <p>From internal analytics systems for performance tracking to full-cycle product development, PORIGAMA supports every stage of building world-class mobile games.</p>
+  </section>
+
+  <section id="contact" class="contact">
+  <h2>CONTACT</h2>
+  <div class="contact-layout">
+    <div class="contact-info">
+      <p>PORIGAMA LTD<br>
+      2 Guildford Business Park, Guildford, England, GU2 8XG<br>
+      <a href="mailto:contact@porigama.com">contact@porigama.com</a></p>
+    </div>
+    
+  </div>
+</section>
+
+  <footer>
+    &copy; 2025 PORIGAMA LTD. Registered in England & Wales, Reg. No. 16577654. All rights reserved.
+  </footer>
+
+  <script>
+    // 2. Eye tracking
+    document.addEventListener("mousemove", (e) => {
+      const eyes = [document.getElementById("eye-left"), document.getElementById("eye-right")];
+      eyes.forEach(eye => {
+        const rect = eye.getBoundingClientRect();
+        const dx = e.clientX - (rect.left + rect.width / 2);
+        const dy = e.clientY - (rect.top + rect.height / 2);
+        const angle = Math.atan2(dy, dx);
+        const dist = Math.min(2, Math.hypot(dx, dy) / 25);
+        const x = Math.cos(angle) * dist;
+        const y = Math.sin(angle) * dist;
+        eye.setAttribute("transform", `translate(${x}, ${y})`);
+      });
+    });
+
+    // 5. Highlight active section in nav
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll("nav a");
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navLinks.forEach(link => link.classList.remove("active"));
+            const activeLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+            if (activeLink) activeLink.classList.add("active");
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>
