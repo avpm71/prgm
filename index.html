@@ -10,7 +10,9 @@
       --section-padding: 80px;
       --section-padding-mobile: 48px;
     }
-
+    html {
+  font-size: 144%; /* Глобально увеличено на 20% еще раз */
+}
     * {
       margin: 0;
       padding: 0;
@@ -56,16 +58,47 @@
     }
 
     header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 60vh;
-      padding: var(--section-padding) 2rem;
-      background: #ffffff;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: var(--section-padding) 2rem;
+  background: linear-gradient(180deg, #fff 0%, #eaf6ff 100%);
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.08;
+  background: repeating-linear-gradient(
+    to bottom,
+    #2c98f0 0px,
+    #2c98f0 1px,
+    transparent 1px,
+    transparent 14px
+  );
+  pointer-events: none;
+}
+
+header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 80vw; height: 90px;
+  background: radial-gradient(ellipse at center, #2c98f0 0%, transparent 70%);
+  opacity: 0.12;
+  z-index: 0;
+  pointer-events: none;
+}
+
 
     h1 {
       font-size: 5rem;
@@ -78,10 +111,8 @@
       
     }
 
-    
-
     .tagline {
-      font-size: 1.95rem;
+      font-size: 1.5rem;
       color: #333;
       white-space: nowrap;
       overflow: hidden;
@@ -89,10 +120,6 @@
       width: 42ch;
       animation: typing 4s steps(42, end) forwards, blink 0.7s step-end infinite;
       margin-bottom: 2rem;
-    }
-
-    .mobile-br {
-      display: none;
     }
 
     @keyframes typing {
@@ -139,8 +166,6 @@
       margin-bottom: 0.75rem;
     }
 
-    
-
     h2 {
       font-size: 2rem;
       margin-bottom: 1rem;
@@ -182,13 +207,6 @@
       }
       .tagline {
         font-size: 1.05rem;
-        white-space: normal;
-        border-right: none;
-        width: auto;
-        animation: none;
-      }
-      .mobile-br {
-        display: inline;
       }
       h1 {
         font-size: 3rem;
@@ -203,27 +221,21 @@
       section, header {
         padding: var(--section-padding-mobile) 1rem;
       }
+      .contact {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        min-height: unset !important;
+        height: auto !important;
+      }
+      .contact-layout {
+        margin-bottom: 0 !important;
+      }
     }
-  
-
 
   100% { transform: translateY(100%); }
 }
 
-
-
-
-    
-      50% { r: 9; opacity: 0.4; }
-    }
-
-    
-
-    
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-.lamp {
+    .lamp {
       animation: pulseLamp 1.5s infinite;
     }
 
@@ -302,7 +314,7 @@ footer {
 
   <header id="top">
     <h1>PORIGAMA</h1>
-    <p class="tagline">World-class expertise<span class="mobile-br"><br></span> to power your mobile game business</p>
+    <p class="tagline">World-class expertise to power your mobile game business.</p>
 
     <!-- SVG ROBOT CHARACTER WITH MOVING EYES -->
     <svg class="robot" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
