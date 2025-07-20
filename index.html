@@ -81,7 +81,7 @@
     
 
     .tagline {
-      font-size: 1.5rem;
+      font-size: 1.95rem;
       color: #333;
       white-space: nowrap;
       overflow: hidden;
@@ -89,6 +89,10 @@
       width: 42ch;
       animation: typing 4s steps(42, end) forwards, blink 0.7s step-end infinite;
       margin-bottom: 2rem;
+    }
+
+    .mobile-br {
+      display: none;
     }
 
     @keyframes typing {
@@ -178,6 +182,13 @@
       }
       .tagline {
         font-size: 1.05rem;
+        white-space: normal;
+        border-right: none;
+        width: auto;
+        animation: none;
+      }
+      .mobile-br {
+        display: inline;
       }
       h1 {
         font-size: 3rem;
@@ -291,7 +302,7 @@ footer {
 
   <header id="top">
     <h1>PORIGAMA</h1>
-    <p class="tagline">World-class expertise to power your mobile game business.</p>
+    <p class="tagline">World-class expertise<span class="mobile-br"><br></span> to power your mobile game business</p>
 
     <!-- SVG ROBOT CHARACTER WITH MOVING EYES -->
     <svg class="robot" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
