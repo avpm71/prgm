@@ -37,7 +37,7 @@
       border-bottom: 1px solid #e6e6e6;
       z-index: 1000;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end; /* Меню теперь справа */
       align-items: center;
     }
     nav ul {
@@ -52,16 +52,21 @@
       font-weight: bold;
       transition: color 0.3s;
       position: relative;
+      padding-bottom: 5px;
     }
     nav a::after {
       content: '';
       position: absolute;
-      bottom: -5px;
+      bottom: 0;
       left: 0;
       width: 0;
       height: 3px;
       background: linear-gradient(to right, var(--primary), var(--accent));
       transition: width 0.3s ease;
+    }
+    nav a:hover {
+      color: var(--primary);
+      text-decoration: none; /* Убрано двойное подчеркивание */
     }
     nav a:hover::after {
       width: 100%;
@@ -109,8 +114,11 @@
     header::after {
       content: '';
       position: absolute;
-      bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 80vw; height: 90px;
+      bottom: 0; 
+      left: 50%; 
+      transform: translateX(-50%);
+      width: 80vw; 
+      height: 90px;
       background: radial-gradient(ellipse at center, var(--primary) 0%, transparent 70%);
       opacity: 0.12;
       z-index: 0;
@@ -137,6 +145,7 @@
       filter: drop-shadow(0 2px 10px rgba(44,152,240,0.15));
       position: relative;
       z-index: 2;
+      will-change: background-position;
     }
     .logo-icon {
       position: absolute;
@@ -183,6 +192,7 @@
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.6s ease, transform 0.6s ease;
+      min-height: 50vh;
     }
     section.visible {
       opacity: 1;
@@ -212,6 +222,32 @@
       background: linear-gradient(to right, var(--primary), var(--accent));
       border-radius: 2px;
     }
+    
+    /* Улучшенный дизайн About Us */
+    #about {
+      background: #f8fcff;
+      border-radius: 16px;
+      margin: 40px auto;
+      box-shadow: 0 10px 30px rgba(44, 152, 240, 0.08);
+    }
+    #about h2 {
+      margin-bottom: 2rem;
+    }
+    #about p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    #about p::before {
+      content: "•";
+      color: var(--primary);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+    
     .services-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -236,9 +272,11 @@
       height: 100%;
       background: linear-gradient(to bottom, var(--primary), var(--accent));
     }
-    .service-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(44, 152, 240, 0.15);
+    @media (hover: hover) {
+      .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(44, 152, 240, 0.15);
+      }
     }
     .service-card h3 {
       font-size: 1.5rem;
@@ -274,48 +312,19 @@
       margin-top: 1.5rem;
     }
     .contact-info {
-      flex: 1 1 300px;
+      flex: 1 1 100%; /* Теперь занимает всю ширину */
     }
     .contact-message {
-      flex: 1 1 300px;
+      flex: 1 1 100%;
       font-style: italic;
       color: var(--primary);
       font-size: 1rem;
-      max-width: 400px;
-      padding: 1rem;
+      max-width: 100%;
+      padding: 1.5rem;
       background: #f0f9ff;
       border-radius: 8px;
       border-left: 3px solid var(--primary);
-    }
-    .contact-map {
-      flex: 1 1 320px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-width: 180px;
-      max-width: 340px;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-      transition: transform 0.3s ease;
-    }
-    .contact-map:hover {
-      transform: translateY(-5px);
-    }
-    .contact-map svg {
-      image-rendering: pixelated;
-      transition: transform 0.3s ease;
-    }
-    .contact-map:hover svg {
-      transform: scale(1.03);
-    }
-    .building {
-      transition: fill 0.3s ease;
-      cursor: pointer;
-    }
-    .building:hover {
-      fill: var(--accent);
-      opacity: 0.9;
+      margin-top: 1.5rem;
     }
     @media (max-width: 768px) {
       .logo {
@@ -330,6 +339,9 @@
       .tagline {
         font-size: 1.15rem;
       }
+      nav {
+        justify-content: space-between; /* Для мобильных оставляем стандартное выравнивание */
+      }
       nav ul {
         position: fixed;
         top: 70px;
@@ -342,7 +354,7 @@
         box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         transform: translateY(-150%);
         transition: transform 0.4s ease;
-        z-index: 999;
+        z-index: 1001;
       }
       nav ul.active {
         transform: translateY(0);
@@ -367,10 +379,6 @@
       .contact-layout {
         flex-direction: column;
       }
-      .contact-map {
-        max-width: 100%;
-        margin-top: 1.5rem;
-      }
     }
     @media (max-width: 480px) {
       .logo {
@@ -390,24 +398,22 @@
 </head>
 <body>
   <nav>
-    <button class="mobile-menu-btn">☰</button>
+    <button class="mobile-menu-btn" aria-expanded="false" aria-label="Toggle menu">☰</button>
     <ul>
       <li><a href="#top">HOME</a></li>
       <li><a href="#about">ABOUT US</a></li>
-      <li><a href="#services">SERVICES</a></li>
+      <li><a href="#services">OUR SERVICES</a></li> <!-- Изменено на OUR SERVICES -->
       <li><a href="#contact">CONTACT</a></li>
     </ul>
   </nav>
   <header id="top">
     <div class="logo-container">
       <h1 class="logo">PORIGAMA</h1>
-      <!-- Логотип в виде бумажного самолетика -->
       <svg class="logo-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M3 20L21 12L3 4V10L14 12L3 14V20Z" fill="#2c98f0"/>
       </svg>
     </div>
     <p class="tagline">World-class expertise to power your mobile game business.</p>
-    <!-- SVG GameBoy -->
     <svg class="pixel-hero" viewBox="0 0 72 96" width="140" height="186" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
       <rect x="20" y="88" width="32" height="8" rx="4" fill="#aaa" opacity="0.15"/>
       <rect x="8" y="8" width="56" height="80" rx="8" fill="#d6e7c7" stroke="#4b5c3d" stroke-width="2"/>
@@ -427,6 +433,7 @@
     <p>PORIGAMA is a UK-based company specializing in consulting and software development for the mobile gaming industry.</p>
     <p>Led by professionals with years in mobile gaming, PORIGAMA stands out thanks to its deep domain knowledge and proven track record of delivering successful products on both iOS and Android platforms.</p>
     <p>From internal analytics systems for performance tracking to full-cycle product development, PORIGAMA supports every stage of building world-class mobile games.</p>
+    <p>Our team combines technical excellence with creative vision to create engaging experiences that players love.</p>
   </section>
   <section id="services">
     <h2>OUR SERVICES</h2>
@@ -469,134 +476,70 @@
           <p>Let's discuss how we can transform your mobile game vision into a successful reality.</p>
         </div>
       </div>
-      <div class="contact-map">
-        <svg viewBox="0 0 180 90" width="100%" height="120" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#eaf6ff"/>
-              <stop offset="85%" stop-color="#c8e0ff"/>
-            </linearGradient>
-            <linearGradient id="grassG" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stop-color="#b7eebb"/>
-              <stop offset="80%" stop-color="#d7ffd7"/>
-            </linearGradient>
-          </defs>
-          <rect x="0" y="0" width="180" height="90" fill="url(#skyG)"/>
-          <!-- Buildings with hover effect -->
-          <rect class="building" x="10" y="60" width="20" height="20" fill="#bac8df" data-title="Business Center"/>
-          <rect class="building" x="15" y="72" width="5" height="8" fill="#fff"/>
-          <rect class="building" x="30" y="55" width="8" height="25" fill="#9db5d2" data-title="Tech Hub"/>
-          <rect class="building" x="32" y="62" width="4" height="5" fill="#fff"/>
-          <rect class="building" x="38" y="50" width="15" height="30" fill="#9db5d2" data-title="Innovation Lab"/>
-          <rect class="building" x="45" y="60" width="5" height="10" fill="#fff"/>
-          <rect class="building" x="53" y="57" width="9" height="23" fill="#bac8df" data-title="Design Studio"/>
-          <rect class="building" x="55" y="68" width="4" height="6" fill="#fff"/>
-          <rect class="building" x="65" y="35" width="20" height="45" fill="#2c98f0" data-title="PORIGAMA HQ"/>
-          <rect class="building" x="71" y="55" width="8" height="12" fill="#fff"/>
-          <rect class="building" x="85" y="60" width="7" height="20" fill="#bcd" data-title="Development Center"/>
-          <rect class="building" x="87" y="70" width="3" height="7" fill="#fff"/>
-          <rect class="building" x="92" y="52" width="10" height="28" fill="#38f9d7" data-title="Creative Space"/>
-          <rect class="building" x="95" y="62" width="5" height="7" fill="#fff"/>
-          <rect class="building" x="105" y="62" width="7" height="18" fill="#bcd" data-title="Gaming Cafe"/>
-          <rect class="building" x="106" y="70" width="3" height="6" fill="#fff"/>
-          <rect class="building" x="112" y="55" width="16" height="25" fill="#00b8d9" data-title="Strategy Hub"/>
-          <rect class="building" x="116" y="68" width="8" height="10" fill="#fff"/>
-          <rect class="building" x="128" y="58" width="14" height="22" fill="#bcd" data-title="Analytics Lab"/>
-          <rect class="building" x="131" y="66" width="6" height="7" fill="#fff"/>
-          <rect class="building" x="145" y="47" width="25" height="33" fill="#9db5d2" data-title="Conference Center"/>
-          <rect class="building" x="158" y="70" width="6" height="9" fill="#fff"/>
-          <!-- Cathedral tower -->
-          <rect class="building" x="70" y="18" width="10" height="17" fill="#b6e2ff" stroke="#2c98f0" stroke-width="1.4" data-title="Guildford Cathedral"/>
-          <rect x="73" y="11" width="4" height="7" fill="#fff" stroke="#2c98f0" stroke-width="1"/>
-          <rect x="74" y="21" width="2" height="11" fill="#7db6ff"/>
-          <!-- Ground -->
-          <rect x="0" y="80" width="180" height="10" fill="url(#grassG)"/>
-          <!-- Building shadows -->
-          <rect x="15" y="80" width="60" height="2" fill="#c8e0ff" opacity=".36"/>
-          <rect x="65" y="77" width="18" height="3" fill="#aee2d9" opacity=".24"/>
-          <rect x="112" y="80" width="32" height="2" fill="#38f9d7" opacity=".12"/>
-          <!-- Building label (hidden by default) -->
-          <text id="building-label" x="90" y="20" text-anchor="middle" fill="#1a1a1a" font-size="4" font-weight="bold" opacity="0" pointer-events="none">Building Name</text>
-        </svg>
-      </div>
     </div>
   </section>
   <footer>
     &copy; 2025 PORIGAMA LTD. Registered in England & Wales, Reg. No. 16577654. All rights reserved.
   </footer>
   <script>
-    // Mobile menu toggle
-    const menuBtn = document.querySelector('.mobile-menu-btn');
-    const navMenu = document.querySelector('nav ul');
-    
-    menuBtn.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-      menuBtn.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
-    });
-
-    // Close mobile menu when clicking a link
-    document.querySelectorAll('nav a').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        menuBtn.textContent = '☰';
-      });
-    });
-
-    // Section fade-in animation on scroll
-    const sections = document.querySelectorAll('section');
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-    
-    sections.forEach(section => {
-      observer.observe(section);
-    });
-
-    // Highlight active section in nav
-    const navLinks = document.querySelectorAll('nav a');
-    const sectionObserver = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            navLinks.forEach(link => link.classList.remove('active'));
-            const activeLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
-            if (activeLink) activeLink.classList.add('active');
-          }
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        // Mobile menu toggle
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const navMenu = document.querySelector('nav ul');
+        
+        menuBtn.addEventListener('click', () => {
+          const isExpanded = navMenu.classList.toggle('active');
+          menuBtn.textContent = isExpanded ? '✕' : '☰';
+          menuBtn.setAttribute('aria-expanded', isExpanded);
         });
-      },
-      { threshold: 0.5 }
-    );
-    
-    sections.forEach(section => sectionObserver.observe(section));
 
-    // Interactive map hover effect
-    const buildings = document.querySelectorAll('.building');
-    const label = document.getElementById('building-label');
-    
-    buildings.forEach(building => {
-      building.addEventListener('mouseenter', (e) => {
-        const title = e.target.getAttribute('data-title');
-        if (title) {
-          const rect = e.target.getBoundingClientRect();
-          const svgRect = e.target.ownerSVGElement.getBoundingClientRect();
-          const x = rect.left + rect.width/2 - svgRect.left;
-          const y = rect.top - 10 - svgRect.top;
-          
-          label.setAttribute('x', x);
-          label.setAttribute('y', y);
-          label.textContent = title;
-          label.setAttribute('opacity', 1);
-        }
-      });
-      
-      building.addEventListener('mouseleave', () => {
-        label.setAttribute('opacity', 0);
-      });
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('nav a').forEach(link => {
+          link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            menuBtn.textContent = '☰';
+            menuBtn.setAttribute('aria-expanded', 'false');
+          });
+        });
+
+        // Section fade-in animation on scroll
+        const sections = document.querySelectorAll('section');
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        }, { 
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        });
+        
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+
+        // Highlight active section in nav
+        const navLinks = document.querySelectorAll('nav a');
+        const sectionObserver = new IntersectionObserver(
+          entries => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                navLinks.forEach(link => link.classList.remove('active'));
+                const activeLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+                if (activeLink) activeLink.classList.add('active');
+              }
+            });
+          },
+          { threshold: 0.5 }
+        );
+        
+        sections.forEach(section => sectionObserver.observe(section));
+      } catch (error) {
+        console.error('Initialization error:', error);
+      }
     });
   </script>
 </body>
