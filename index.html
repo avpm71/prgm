@@ -9,9 +9,13 @@
       --container-width: 960px;
       --section-padding: 80px;
       --section-padding-mobile: 48px;
+      --primary: #2c98f0;
+      --secondary: #00b8d9;
+      --accent: #38f9d7;
     }
     html {
       font-size: 144%;
+      scroll-behavior: smooth;
     }
     * {
       margin: 0;
@@ -23,7 +27,7 @@
       background: #ffffff;
       color: #1a1a1a;
       line-height: 1.6;
-      scroll-behavior: smooth;
+      overflow-x: hidden;
     }
     nav {
       position: sticky;
@@ -32,6 +36,9 @@
       padding: 1rem 2rem;
       border-bottom: 1px solid #e6e6e6;
       z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     nav ul {
       display: flex;
@@ -44,16 +51,31 @@
       color: #000000;
       font-weight: bold;
       transition: color 0.3s;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      transition: width 0.3s ease;
+    }
+    nav a:hover::after {
+      width: 100%;
     }
     nav a.active {
-      color: #000000;
+      color: var(--primary);
     }
-    nav a:hover {
-      background: linear-gradient(to right, #2c98f0, #00b8d9);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--primary);
     }
     header {
       display: flex;
@@ -77,8 +99,8 @@
       opacity: 0.08;
       background: repeating-linear-gradient(
         to bottom,
-        #2c98f0 0px,
-        #2c98f0 1px,
+        var(--primary) 0px,
+        var(--primary) 1px,
         transparent 1px,
         transparent 14px
       );
@@ -89,16 +111,20 @@
       position: absolute;
       bottom: 0; left: 50%; transform: translateX(-50%);
       width: 80vw; height: 90px;
-      background: radial-gradient(ellipse at center, #2c98f0 0%, transparent 70%);
+      background: radial-gradient(ellipse at center, var(--primary) 0%, transparent 70%);
       opacity: 0.12;
       z-index: 0;
       pointer-events: none;
     }
-    h1 {
+    .logo-container {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    .logo {
       font-size: 5rem;
       font-weight: 900;
       margin-bottom: 1rem;
-      background: linear-gradient(270deg, #2c98f0, #00b8d9, #38f9d7, #2c98f0);
+      background: linear-gradient(270deg, var(--primary), var(--secondary), var(--accent), var(--primary));
       background-size: 200% 200%;
       background-position: 0% 50%;
       -webkit-background-clip: text;
@@ -109,6 +135,23 @@
       letter-spacing: 0.05em;
       transition: filter 0.3s;
       filter: drop-shadow(0 2px 10px rgba(44,152,240,0.15));
+      position: relative;
+      z-index: 2;
+    }
+    .logo-icon {
+      position: absolute;
+      top: -20px;
+      right: -40px;
+      width: 60px;
+      height: 60px;
+      z-index: 1;
+      animation: float 6s ease-in-out infinite;
+      opacity: 0.9;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
     }
     @keyframes gradient-move {
       0% { background-position: 0% 50%; }
@@ -116,35 +159,18 @@
       100% { background-position: 0% 50%; }
     }
     .tagline {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 2rem;
-  opacity: 0;
-  filter: blur(10px);
-  transform: translateY(36px);
-  animation: tagline-fadein-up 1.56s cubic-bezier(.44,.17,.34,1.07) 0.5s both;
-}
-@keyframes tagline-fadein-up {
-  0% { opacity: 0; filter: blur(12px); transform: translateY(36px); }
-  60% { opacity: 1; filter: blur(3px); transform: translateY(-4px); }
-  100% { opacity: 1; filter: blur(0); transform: translateY(0); }
-}
-
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 2rem;
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(36px);
+      animation: tagline-fadein-up 1.56s cubic-bezier(.44,.17,.34,1.07) 0.5s both;
     }
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
-    .robot-terminator {
-      width: 200px;
-      max-width: 80vw;
-      height: auto;
-      margin: 0 auto 14px auto;
-      display: block;
-      filter: drop-shadow(0 0 18px #23232333) drop-shadow(0 2px 12px #ff202722);
-      /* Можно добавить анимацию при желании */
+    @keyframes tagline-fadein-up {
+      0% { opacity: 0; filter: blur(12px); transform: translateY(36px); }
+      60% { opacity: 1; filter: blur(3px); transform: translateY(-4px); }
+      100% { opacity: 1; filter: blur(0); transform: translateY(0); }
     }
     section {
       max-width: var(--container-width);
@@ -154,27 +180,81 @@
       box-sizing: border-box;
       border-bottom: 2px solid #e6e6e6;
       background: transparent;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
     section p {
       margin-bottom: 0.75rem;
     }
     h2 {
       font-size: 2rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       color: #000000;
+      position: relative;
+      display: inline-block;
     }
     h2::before {
       content: "# ";
-      color: #000000;
+      color: var(--primary);
+    }
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .service-card {
+      background: #f8fcff;
+      border-radius: 12px;
+      padding: 2rem;
+      border: 1px solid #e1f0fa;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary), var(--accent));
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(44, 152, 240, 0.15);
+    }
+    .service-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
     }
     .contact p {
       margin-bottom: 0.5rem;
     }
     a {
-      color: #2c98f0;
+      color: var(--primary);
       text-decoration: none;
+      transition: color 0.3s;
     }
     a:hover {
+      color: var(--secondary);
       text-decoration: underline;
     }
     footer {
@@ -185,223 +265,339 @@
       background: #ffffff;
       border-top: 1px solid #ddd;
     }
-    @media (max-width: 600px) {
-      .robot-terminator {
-        width: 80vw;
-        max-width: 220px;
-        height: auto;
+    .contact-layout {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    .contact-info {
+      flex: 1 1 300px;
+    }
+    .contact-message {
+      flex: 1 1 300px;
+      font-style: italic;
+      color: var(--primary);
+      font-size: 1rem;
+      max-width: 400px;
+      padding: 1rem;
+      background: #f0f9ff;
+      border-radius: 8px;
+      border-left: 3px solid var(--primary);
+    }
+    .contact-map {
+      flex: 1 1 320px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 180px;
+      max-width: 340px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+    }
+    .contact-map:hover {
+      transform: translateY(-5px);
+    }
+    .contact-map svg {
+      image-rendering: pixelated;
+      transition: transform 0.3s ease;
+    }
+    .contact-map:hover svg {
+      transform: scale(1.03);
+    }
+    .building {
+      transition: fill 0.3s ease;
+      cursor: pointer;
+    }
+    .building:hover {
+      fill: var(--accent);
+      opacity: 0.9;
+    }
+    @media (max-width: 768px) {
+      .logo {
+        font-size: 3.5rem;
+      }
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        top: -15px;
+        right: -25px;
       }
       .tagline {
-        font-size: 1.05rem;
-      }
-      h1 {
-        font-size: 3rem;
-      }
-      nav {
-        display: none;
+        font-size: 1.15rem;
       }
       nav ul {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: white;
         flex-direction: column;
-        gap: 1rem;
+        gap: 0;
+        padding: 1rem 0;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        transform: translateY(-150%);
+        transition: transform 0.4s ease;
+        z-index: 999;
+      }
+      nav ul.active {
+        transform: translateY(0);
+      }
+      nav ul li {
+        width: 100%;
+      }
+      nav ul li a {
+        display: block;
+        padding: 1rem 2rem;
+        text-align: center;
+      }
+      .mobile-menu-btn {
+        display: block;
       }
       section, header {
-        padding: var(--section-padding-mobile) 1rem;
+        padding: var(--section-padding-mobile) 1.5rem;
       }
-      .contact {
-        padding-top: 8px !important;
-        padding-bottom: 8px !important;
-        min-height: unset !important;
-        height: auto !important;
+      .services-grid {
+        grid-template-columns: 1fr;
       }
-      .contact-layout {
-        margin-bottom: 0 !important;
-      }
-    }
-    .contact-layout {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-    .contact-info {
-      flex: 1 1 300px;
-    }
-    .contact-message {
-      flex: 1 1 300px;
-      font-style: italic;
-      color: #2c98f0;
-      font-size: 1rem;
-      max-width: 400px;
-    }
-    .contact-layout {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-    .contact-info {
-      flex: 1 1 300px;
-    }
-    .contact-message {
-      flex: 1 1 300px;
-      font-style: italic;
-      color: #2c98f0;
-      font-size: 1rem;
-      max-width: 400px;
-    }
-    @media (max-width: 600px) {
       .contact-layout {
         flex-direction: column;
-        align-items: flex-start;
+      }
+      .contact-map {
+        max-width: 100%;
+        margin-top: 1.5rem;
       }
     }
-    section:last-of-type {
-      border-bottom: none;
-    }
-    footer {
-      margin-top: 2rem;
+    @media (max-width: 480px) {
+      .logo {
+        font-size: 2.8rem;
+      }
+      .logo-icon {
+        width: 30px;
+        height: 30px;
+        top: -10px;
+        right: -20px;
+      }
+      h2 {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
 <body>
   <nav>
+    <button class="mobile-menu-btn">☰</button>
     <ul>
       <li><a href="#top">HOME</a></li>
       <li><a href="#about">ABOUT US</a></li>
+      <li><a href="#services">SERVICES</a></li>
       <li><a href="#contact">CONTACT</a></li>
     </ul>
   </nav>
   <header id="top">
-    <h1>PORIGAMA</h1>
+    <div class="logo-container">
+      <h1 class="logo">PORIGAMA</h1>
+      <!-- Логотип в виде бумажного самолетика -->
+      <svg class="logo-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 20L21 12L3 4V10L14 12L3 14V20Z" fill="#2c98f0"/>
+      </svg>
+    </div>
     <p class="tagline">World-class expertise to power your mobile game business.</p>
-    <!-- SVG TERMINATOR BOT-->
+    <!-- SVG GameBoy -->
     <svg class="pixel-hero" viewBox="0 0 72 96" width="140" height="186" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-  <!-- Тень -->
-  <rect x="20" y="88" width="32" height="8" rx="4" fill="#aaa" opacity="0.15"/>
-  <!-- Корпус GameBoy -->
-  <rect x="8" y="8" width="56" height="80" rx="8" fill="#d6e7c7" stroke="#4b5c3d" stroke-width="2"/>
-  <!-- Экран -->
-  <rect x="16" y="16" width="40" height="28" rx="3" fill="#84bb83" stroke="#222" stroke-width="2"/>
-  <!-- Глаза/лицо на экране -->
-  <rect x="28" y="26" width="4" height="4" fill="#fff"/>
-  <rect x="40" y="26" width="4" height="4" fill="#fff"/>
-  <rect x="33" y="32" width="6" height="2" rx="1" fill="#fff"/>
-  <!-- Кнопки -->
-  <rect x="20" y="58" width="8" height="8" rx="2" fill="#be334d" stroke="#77233a" stroke-width="1"/>
-  <rect x="44" y="62" width="5" height="5" rx="2" fill="#dcb924" stroke="#8c7a1c" stroke-width="1"/>
-  <rect x="44" y="70" width="5" height="5" rx="2" fill="#3f82c6" stroke="#23487b" stroke-width="1"/>
-  <!-- Крестовина -->
-  <rect x="27" y="70" width="3" height="9" rx="1" fill="#888"/>
-  <rect x="24" y="73" width="9" height="3" rx="1" fill="#888"/>
-  
-  </svg>
-
-
+      <rect x="20" y="88" width="32" height="8" rx="4" fill="#aaa" opacity="0.15"/>
+      <rect x="8" y="8" width="56" height="80" rx="8" fill="#d6e7c7" stroke="#4b5c3d" stroke-width="2"/>
+      <rect x="16" y="16" width="40" height="28" rx="3" fill="#84bb83" stroke="#222" stroke-width="2"/>
+      <rect x="28" y="26" width="4" height="4" fill="#fff"/>
+      <rect x="40" y="26" width="4" height="4" fill="#fff"/>
+      <rect x="33" y="32" width="6" height="2" rx="1" fill="#fff"/>
+      <rect x="20" y="58" width="8" height="8" rx="2" fill="#be334d" stroke="#77233a" stroke-width="1"/>
+      <rect x="44" y="62" width="5" height="5" rx="2" fill="#dcb924" stroke="#8c7a1c" stroke-width="1"/>
+      <rect x="44" y="70" width="5" height="5" rx="2" fill="#3f82c6" stroke="#23487b" stroke-width="1"/>
+      <rect x="27" y="70" width="3" height="9" rx="1" fill="#888"/>
+      <rect x="24" y="73" width="9" height="3" rx="1" fill="#888"/>
+    </svg>
   </header>
   <section id="about">
     <h2>ABOUT US</h2>
-    <p></p>
     <p>PORIGAMA is a UK-based company specializing in consulting and software development for the mobile gaming industry.</p>
     <p>Led by professionals with years in mobile gaming, PORIGAMA stands out thanks to its deep domain knowledge and proven track record of delivering successful products on both iOS and Android platforms.</p>
     <p>From internal analytics systems for performance tracking to full-cycle product development, PORIGAMA supports every stage of building world-class mobile games.</p>
   </section>
-  <section id="contact" class="contact">
-  <h2>CONTACT</h2>
-  <div class="contact-layout">
-    <div class="contact-info">
-      <p>PORIGAMA LTD<br>
-      2 Guildford Business Park, Guildford, England, GU2 8XG<br>
-      <a href="mailto:contact@porigama.com">contact@porigama.com</a></p>
+  <section id="services">
+    <h2>OUR SERVICES</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <h3>Game Development</h3>
+        <p>Full-cycle development for iOS and Android platforms using Unity and native technologies. From concept to launch and post-release support.</p>
+      </div>
+      <div class="service-card">
+        <h3>Analytics Systems</h3>
+        <p>Custom analytics solutions for tracking player behavior, monetization metrics, and performance indicators tailored to your game's needs.</p>
+      </div>
+      <div class="service-card">
+        <h3>Monetization Strategy</h3>
+        <p>Data-driven approaches to maximize revenue through IAP, ads, and subscription models while maintaining player satisfaction.</p>
+      </div>
+      <div class="service-card">
+        <h3>Live Operations</h3>
+        <p>Comprehensive management of game updates, events, and community engagement to keep players active and invested long-term.</p>
+      </div>
+      <div class="service-card">
+        <h3>Technical Consulting</h3>
+        <p>Architecture reviews, performance optimization, and technical guidance for scaling your game infrastructure efficiently.</p>
+      </div>
+      <div class="service-card">
+        <h3>Porting Services</h3>
+        <p>Adapting existing games to new platforms with optimized performance and platform-specific features implementation.</p>
+      </div>
     </div>
-  <div class="contact-map" style="flex:1 1 320px; display:flex; justify-content:center; align-items:center; min-width:180px; max-width:340px;">
-  <svg viewBox="0 0 180 90" width="100%" height="120" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;">
-  <!-- Градиент неба -->
-  <defs>
-    <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#eaf6ff"/>
-      <stop offset="85%" stop-color="#c8e0ff"/>
-    </linearGradient>
-    <linearGradient id="grassG" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0%" stop-color="#b7eebb"/>
-      <stop offset="80%" stop-color="#d7ffd7"/>
-    </linearGradient>
-  </defs>
-  <!-- Фон -->
-  <rect x="0" y="0" width="180" height="90" fill="url(#skyG)"/>
-  <!-- Линия горизонта Guildford (пиксель-арт, с деталями) -->
-  <rect x="10" y="60" width="20" height="20" fill="#bac8df"/>
-  <rect x="15" y="72" width="5" height="8" fill="#fff"/>
-  <rect x="30" y="55" width="8" height="25" fill="#9db5d2"/>
-  <rect x="32" y="62" width="4" height="5" fill="#fff"/>
-  <rect x="38" y="50" width="15" height="30" fill="#9db5d2"/>
-  <rect x="45" y="60" width="5" height="10" fill="#fff"/>
-  <rect x="53" y="57" width="9" height="23" fill="#bac8df"/>
-  <rect x="55" y="68" width="4" height="6" fill="#fff"/>
-  <rect x="65" y="35" width="20" height="45" fill="#2c98f0"/>
-  <rect x="71" y="55" width="8" height="12" fill="#fff"/>
-  <rect x="85" y="60" width="7" height="20" fill="#bcd"/>
-  <rect x="87" y="70" width="3" height="7" fill="#fff"/>
-  <rect x="92" y="52" width="10" height="28" fill="#38f9d7"/>
-  <rect x="95" y="62" width="5" height="7" fill="#fff"/>
-  <rect x="105" y="62" width="7" height="18" fill="#bcd"/>
-  <rect x="106" y="70" width="3" height="6" fill="#fff"/>
-  <rect x="112" y="55" width="16" height="25" fill="#00b8d9"/>
-  <rect x="116" y="68" width="8" height="10" fill="#fff"/>
-  <rect x="128" y="58" width="14" height="22" fill="#bcd"/>
-  <rect x="131" y="66" width="6" height="7" fill="#fff"/>
-  <rect x="145" y="47" width="25" height="33" fill="#9db5d2"/>
-  <rect x="158" y="70" width="6" height="9" fill="#fff"/>
-  <!-- Башня кафедрального собора (главная доминанта Guildford) -->
-  <rect x="70" y="18" width="10" height="17" fill="#b6e2ff" stroke="#2c98f0" stroke-width="1.4"/>
-  <rect x="73" y="11" width="4" height="7" fill="#fff" stroke="#2c98f0" stroke-width="1"/>
-  <rect x="74" y="21" width="2" height="11" fill="#7db6ff"/>
-  <!-- Трава/подложка -->
-  <rect x="0" y="80" width="180" height="10" fill="url(#grassG)"/>
-  <!-- Тени зданий -->
-  <rect x="15" y="80" width="60" height="2" fill="#c8e0ff" opacity=".36"/>
-  <rect x="65" y="77" width="18" height="3" fill="#aee2d9" opacity=".24"/>
-  <rect x="112" y="80" width="32" height="2" fill="#38f9d7" opacity=".12"/>
-</svg>
-</div>
-</div>
-</section>
+  </section>
+  <section id="contact" class="contact">
+    <h2>CONTACT</h2>
+    <div class="contact-layout">
+      <div class="contact-info">
+        <p>PORIGAMA LTD<br>
+        2 Guildford Business Park, Guildford, England, GU2 8XG<br>
+        <a href="mailto:contact@porigama.com">contact@porigama.com</a></p>
+        
+        <div class="contact-message">
+          <p>Let's discuss how we can transform your mobile game vision into a successful reality.</p>
+        </div>
+      </div>
+      <div class="contact-map">
+        <svg viewBox="0 0 180 90" width="100%" height="120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#eaf6ff"/>
+              <stop offset="85%" stop-color="#c8e0ff"/>
+            </linearGradient>
+            <linearGradient id="grassG" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#b7eebb"/>
+              <stop offset="80%" stop-color="#d7ffd7"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="180" height="90" fill="url(#skyG)"/>
+          <!-- Buildings with hover effect -->
+          <rect class="building" x="10" y="60" width="20" height="20" fill="#bac8df" data-title="Business Center"/>
+          <rect class="building" x="15" y="72" width="5" height="8" fill="#fff"/>
+          <rect class="building" x="30" y="55" width="8" height="25" fill="#9db5d2" data-title="Tech Hub"/>
+          <rect class="building" x="32" y="62" width="4" height="5" fill="#fff"/>
+          <rect class="building" x="38" y="50" width="15" height="30" fill="#9db5d2" data-title="Innovation Lab"/>
+          <rect class="building" x="45" y="60" width="5" height="10" fill="#fff"/>
+          <rect class="building" x="53" y="57" width="9" height="23" fill="#bac8df" data-title="Design Studio"/>
+          <rect class="building" x="55" y="68" width="4" height="6" fill="#fff"/>
+          <rect class="building" x="65" y="35" width="20" height="45" fill="#2c98f0" data-title="PORIGAMA HQ"/>
+          <rect class="building" x="71" y="55" width="8" height="12" fill="#fff"/>
+          <rect class="building" x="85" y="60" width="7" height="20" fill="#bcd" data-title="Development Center"/>
+          <rect class="building" x="87" y="70" width="3" height="7" fill="#fff"/>
+          <rect class="building" x="92" y="52" width="10" height="28" fill="#38f9d7" data-title="Creative Space"/>
+          <rect class="building" x="95" y="62" width="5" height="7" fill="#fff"/>
+          <rect class="building" x="105" y="62" width="7" height="18" fill="#bcd" data-title="Gaming Cafe"/>
+          <rect class="building" x="106" y="70" width="3" height="6" fill="#fff"/>
+          <rect class="building" x="112" y="55" width="16" height="25" fill="#00b8d9" data-title="Strategy Hub"/>
+          <rect class="building" x="116" y="68" width="8" height="10" fill="#fff"/>
+          <rect class="building" x="128" y="58" width="14" height="22" fill="#bcd" data-title="Analytics Lab"/>
+          <rect class="building" x="131" y="66" width="6" height="7" fill="#fff"/>
+          <rect class="building" x="145" y="47" width="25" height="33" fill="#9db5d2" data-title="Conference Center"/>
+          <rect class="building" x="158" y="70" width="6" height="9" fill="#fff"/>
+          <!-- Cathedral tower -->
+          <rect class="building" x="70" y="18" width="10" height="17" fill="#b6e2ff" stroke="#2c98f0" stroke-width="1.4" data-title="Guildford Cathedral"/>
+          <rect x="73" y="11" width="4" height="7" fill="#fff" stroke="#2c98f0" stroke-width="1"/>
+          <rect x="74" y="21" width="2" height="11" fill="#7db6ff"/>
+          <!-- Ground -->
+          <rect x="0" y="80" width="180" height="10" fill="url(#grassG)"/>
+          <!-- Building shadows -->
+          <rect x="15" y="80" width="60" height="2" fill="#c8e0ff" opacity=".36"/>
+          <rect x="65" y="77" width="18" height="3" fill="#aee2d9" opacity=".24"/>
+          <rect x="112" y="80" width="32" height="2" fill="#38f9d7" opacity=".12"/>
+          <!-- Building label (hidden by default) -->
+          <text id="building-label" x="90" y="20" text-anchor="middle" fill="#1a1a1a" font-size="4" font-weight="bold" opacity="0" pointer-events="none">Building Name</text>
+        </svg>
+      </div>
+    </div>
+  </section>
   <footer>
     &copy; 2025 PORIGAMA LTD. Registered in England & Wales, Reg. No. 16577654. All rights reserved.
   </footer>
   <script>
-    // 2. Eye tracking
-    document.addEventListener("mousemove", (e) => {
-      const eyes = [document.getElementById("eye-left"), document.getElementById("eye-right")];
-      eyes.forEach(eye => {
-        if (!eye) return;
-        const rect = eye.getBoundingClientRect();
-        const dx = e.clientX - (rect.left + rect.width / 2);
-        const dy = e.clientY - (rect.top + rect.height / 2);
-        const angle = Math.atan2(dy, dx);
-        const dist = Math.min(2, Math.hypot(dx, dy) / 25);
-        const x = Math.cos(angle) * dist;
-        const y = Math.sin(angle) * dist;
-        eye.setAttribute("transform", `translate(${x}, ${y})`);
+    // Mobile menu toggle
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const navMenu = document.querySelector('nav ul');
+    
+    menuBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      menuBtn.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+    });
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        menuBtn.textContent = '☰';
       });
     });
-    // 5. Highlight active section in nav
-    const sections = document.querySelectorAll("section");
-    const navLinks = document.querySelectorAll("nav a");
-    const observer = new IntersectionObserver(
+
+    // Section fade-in animation on scroll
+    const sections = document.querySelectorAll('section');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+
+    // Highlight active section in nav
+    const navLinks = document.querySelectorAll('nav a');
+    const sectionObserver = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            navLinks.forEach(link => link.classList.remove("active"));
+            navLinks.forEach(link => link.classList.remove('active'));
             const activeLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
-            if (activeLink) activeLink.classList.add("active");
+            if (activeLink) activeLink.classList.add('active');
           }
         });
       },
-      { threshold: 0.6 }
+      { threshold: 0.5 }
     );
-    sections.forEach(section => observer.observe(section));
+    
+    sections.forEach(section => sectionObserver.observe(section));
+
+    // Interactive map hover effect
+    const buildings = document.querySelectorAll('.building');
+    const label = document.getElementById('building-label');
+    
+    buildings.forEach(building => {
+      building.addEventListener('mouseenter', (e) => {
+        const title = e.target.getAttribute('data-title');
+        if (title) {
+          const rect = e.target.getBoundingClientRect();
+          const svgRect = e.target.ownerSVGElement.getBoundingClientRect();
+          const x = rect.left + rect.width/2 - svgRect.left;
+          const y = rect.top - 10 - svgRect.top;
+          
+          label.setAttribute('x', x);
+          label.setAttribute('y', y);
+          label.textContent = title;
+          label.setAttribute('opacity', 1);
+        }
+      });
+      
+      building.addEventListener('mouseleave', () => {
+        label.setAttribute('opacity', 0);
+      });
+    });
   </script>
 </body>
 </html>
